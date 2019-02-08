@@ -6,17 +6,17 @@ library(gifski)
 library(png)
 housing = read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-02-05/state_hpi.csv')
 
-makeDate = function(month,year){
+make_date = function(month,year){
   month = ifelse(nchar(month) == 1, paste0('0',month),month)
   return(as.Date(paste0(year,'-',month,'-01')))
 }
 
 new_housing = housing %>% 
-  mutate(aDate = makeDate(month,year)) %>% 
+  mutate(aDate = make_date(month,year)) %>% 
   group_by(state) %>% 
   mutate(change_from_last_year = (price_index - lag(price_index,n = 12))/lag(price_index,n = 12)*100)
 
-graphit = function(times,states,pal){
+graph_it = function(times,states,pal){
   new_housing %>% 
     filter(state %in% states & year %in% times) %>% 
     ggplot(aes (x = aDate, y = change_from_last_year, color = state)) + 
@@ -32,12 +32,12 @@ graphit = function(times,states,pal){
     scale_fill_brewer(palette = pal)
 }
 
-animateit = function(startGraph){
+animate_it = function(startGraph){
   startGraph +
-    transition_reveal(aDate)
+  transition_reveal(aDate)
 }  
 
-housingMeltdown = graphit(2000:2012,c('CA','NV','FL','AZ'),'PuOr')
-housingMeltdown
-animateit(housingMeltdown)
+housing_meltdown = graph_it(2000:2012,c('CA','NV','FL','AZ'),'PuOr')
+housing_meltdown
+animate_it(housing_meltdown)
 

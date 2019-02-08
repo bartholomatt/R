@@ -2,8 +2,7 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 library(gganimate)
-library(gifski)
-library(png)
+
 housing = read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-02-05/state_hpi.csv')
 
 make_date = function(month,year){

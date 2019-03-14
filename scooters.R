@@ -11,9 +11,9 @@ names(all_trips)
 names(all_trips) = make.names(names(all_trips))
 
 all_trips_cleaned = all_trips %>% 
-  filter(Trip.Duration >= 0 & Trip.Duration < 100000 & Trip.Distance >= 0)
+  filter(Trip.Duration >= 30 & Trip.Duration >= 0 & Trip.Duration < 100000 & Trip.Distance >= 0)
 
-all_trips$date = as.Date(all_trips$Start.Time,"%m/%d/%Y")
+all_trips_cleaned$date = as.Date(all_trips_cleaned$Start.Time,"%m/%d/%Y")
 
 trips_sampled = sample_n(all_trips_cleaned, 1000)
 
@@ -32,14 +32,16 @@ trips_by_scooter = all_trips_cleaned %>%
   summarize(total_trips = n(),
             first_recorded_trip = min(date), 
             last_recorded_trip = max(date), 
-            average_duration = mean(Trip.Duration), 
-            average_distance = mean(Trip.Distance)) %>% 
+            active_use_days =  length(unique(date)),
+            average_duration = mean(Trip.Duration)/60, #convert seconds to minutes
+            average_distance = mean(Trip.Distance)/1609.34) %>% # convert meters to miles
   ungroup() %>% 
   mutate(still_in_service = ifelse(last_recorded_trip > (Sys.Date() -7),1,0), 
          days_in_service = as.numeric(last_recorded_trip - first_recorded_trip + 1),
          rides_per_day = total_trips/days_in_service,
-         estimated_revenue = total_trips + .15*average_duration/60 * total_trips,
-         revenue_per_day = estimated_revenue/days_in_service)
+         estimated_lifetime_revenue = total_trips + .15*average_duration * total_trips,
+         revenue_per_use_day = estimated_lifetime_revenue/active_use_days, 
+         revenue_per_ride = estimated_lifetime_revenue/total_trips)
 
 
 over_6_mo = trips_by_scooter %>% 

@@ -12,7 +12,7 @@ names(all_trips) = make.names(names(all_trips))
 
 all_trips_cleaned = all_trips %>% 
   filter(Trip.Duration >= 30 & Trip.Duration >= 0 & Trip.Duration < 100000 & Trip.Distance >= 0)
-
+  #filtered for positive durations over 30 secs, positive distances. 
 all_trips_cleaned$date = as.Date(all_trips_cleaned$Start.Time,"%m/%d/%Y")
 
 trips_sampled = sample_n(all_trips_cleaned, 1000)

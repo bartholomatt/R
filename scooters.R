@@ -34,9 +34,11 @@ trips_by_scooter = all_trips_cleaned %>%
             last_recorded_trip = max(date), 
             active_use_days =  length(unique(date)),
             average_duration = mean(Trip.Duration)/60, #convert seconds to minutes
+            total_distance = sum(Trip.Distance)/1609.34,
             average_distance = mean(Trip.Distance)/1609.34) %>% # convert meters to miles
+  
   ungroup() %>% 
-  mutate(still_in_service = ifelse(last_recorded_trip > (Sys.Date() -7),1,0), 
+  mutate(still_in_service = as.logical(ifelse(last_recorded_trip > (Sys.Date() -7),1,0)), #counts as still in service if a ride has been logged in last 7 days
          days_in_service = as.numeric(last_recorded_trip - first_recorded_trip + 1),
          rides_per_day = total_trips/days_in_service,
          estimated_lifetime_revenue = total_trips + .15*average_duration * total_trips,
@@ -48,4 +50,12 @@ over_6_mo = trips_by_scooter %>%
   filter(first_recorded_trip < (Sys.Date() - 180))
 
 summary(over_6_mo)
-                                                                 
+
+#CDF 
+ggplot(over_6_mo, aes(x = days_in_service)) + stat_ecdf(geom = 'step') + 
+  labs(y = 'probability of deactivation', x = 'days in service') + 
+  scale_x_discrete(limits = c(0,30,50,100,200,300))
+
+#PDF
+ggplot(over_6_mo, aes(x=days_in_service)) + geom_density() + scale_x_discrete(limits = c(0,30,50,100,200,300))
+1/.024

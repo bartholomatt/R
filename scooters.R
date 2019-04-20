@@ -59,3 +59,5 @@ ggplot(over_6_mo, aes(x = days_in_service)) + stat_ecdf(geom = 'step') +
 #PDF
 ggplot(over_6_mo, aes(x=days_in_service)) + geom_density() + scale_x_discrete(limits = c(0,30,50,100,200,300))
 1/.024
+
+sum(all_trips$Trip.Distance, na.rm = TRUE)/1609.34

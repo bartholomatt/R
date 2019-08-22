@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564003902893.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "26A9379D",
+    "lastKnownWriteTime" : 6855105502468007277,
+    "last_content_update" : 1564003902893,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "9B16133C",
+        "caption" : "FreeCompetitions()",
+        "contentUrl" : "grid_resource/gridviewer.html?env=_rs_no_env&obj=&cache_key=9B16133C",
+        "displayedObservations" : 12,
+        "environment" : "_rs_no_env",
+        "expression" : "FreeCompetitions()",
+        "object" : "",
+        "preview" : 0,
+        "totalObservations" : 12,
+        "variables" : 8
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564088500304.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "4A7C646C",
+    "lastKnownWriteTime" : 2484901653928,
+    "last_content_update" : 1564088500304,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "83F5A20A",
+        "caption" : "wtf",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=wtf&cache_key=83F5A20A",
+        "displayedObservations" : 146,
+        "environment" : "",
+        "expression" : "wtf",
+        "object" : "wtf",
+        "preview" : 0,
+        "totalObservations" : 146,
+        "variables" : 5
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

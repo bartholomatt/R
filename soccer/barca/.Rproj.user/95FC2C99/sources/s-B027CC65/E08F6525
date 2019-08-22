@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564003871468.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "E08F6525",
+    "lastKnownWriteTime" : 1564003890,
+    "last_content_update" : 1564003952238,
+    "path" : "~/GitHub/R/soccer/barca/draft1.R",
+    "project_path" : "draft1.R",
+    "properties" : {
+        "cursorPosition" : "17,31",
+        "scrollLine" : "3",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,91 @@
+library(tidyverse)
+setwd( "C:/Users/matthew.bartholomew/Documents/")
+
+wtf = read_csv('725-1.csv')
+filestring = '725-1'
+
+
+
+
+#wtf$User = 'matthew.bartholomew@globalresale.com'
+
+#wtf$`Sales Order` = NULL
+#names(wtf)[11] = 'Grading'
+
+wtf = wtf %>% 
+  gather('AssetType','AssetNumber',- c(`Batch ID`,User)) %>% 
+  filter(!is.na(AssetNumber))
+
+#justBatches = unique(wtf$`Batch ID`) %>% 
+#  data.frame(batchID = .)
+
+wtf$assetSQL = paste0('UPDATE Inventory.Asset SET Asset.AssetStatusID = 15 ,Asset.BatchID = ', wtf$`Batch ID`, ' WHERE Asset.AssetNumber = \'', wtf$AssetNumber, '\'')
+
+
+library(RODBC)
+myServer <- "globalresale-reporting.database.windows.net"
+myUser <- "grdbadmin"
+myPassword <- "&&*rDcz!xsYM^E4m"
+myDatabase <- "GRBI"
+myDriver <- "ODBC Driver 13 for SQL Server" 
+
+connectionString <- paste0(
+  "Driver=", myDriver, 
+  ";Server=", myServer, 
+  ";Database=", myDatabase, 
+  ";Uid=", myUser, 
+  ";Pwd=", myPassword)
+
+sqlQuery = "
+SELECT ID,AssetNumber FROM Inventory.Asset 
+"
+
+
+sqlQuery2 = 'SELECT ID, Name FROM Inventory.BatchStatus'
+  
+conn <- odbcDriverConnect(connectionString)
+grbi <- sqlQuery(conn, sqlQuery)
+grbi2 <- sqlQuery(conn, sqlQuery2)
+close(conn) # don't leak connections !
+
+grbi$AssetNumber = as.numeric(as.character(grbi$AssetNumber))
+
+names(grbi2) = c('BatchStatusID','BatchStatusName')
+
+#wtf$Grading = toupper(wtf$Grading)
+wtf = wtf %>% 
+  left_join(grbi) 
+
+
+wtf$historySQL = paste0('INSERT INTO Inventory.AssetServiceHistory',
+                      '(AssetID, ServiceTypeID, AppUserID, ServiceDateTime, ADUsername, ComputerName, Notes)',
+                      'VALUES(', wtf$ID, ', 15, 1, GETDATE(),\'',wtf$User ,'\', \'\',\'\')' )
+
+wtf = filter(wtf, !is.na(ID))
+
+
+#write.csv(wtf,'newWTF3.csv')
+
+
+#wtf$BatchSQL = paste('UPDATE Inventory.Batch SET LocationID = 5749, BatchStatusID =', wtf$BatchStatusID ,'WHERE ID = ', wtf$`Batch ID`)
+
+#write.csv(wtf, 'batchOutput6_25_1.csv')                        
+
+
+#justBatch = unique(wtf$BatchSQL) %>%  
+#  data.frame() %>% 
+#  write.csv(paste0(filestring,'_batches.csv'))
+
+unique(wtf$assetSQL) %>% 
+  data.frame() %>% 
+  write.csv(paste0(filestring,'_assets.csv'))
+
+unique(wtf$historySQL) %>% 
+  data.frame() %>% 
+  write.csv(paste0(filestring,'_history.csv'))
+
+
+
+
+
+

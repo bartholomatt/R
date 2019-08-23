@@ -1,0 +1,12 @@
+name: alphaTranslator
+title: alphaTranslator
+username:
+account: bartholomatt
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1107898
+bundleId: 2346897
+url: https://bartholomatt.shinyapps.io/alphaTranslator/
+when: 1566523638.22659
+asMultiple: FALSE
+asStatic: FALSE

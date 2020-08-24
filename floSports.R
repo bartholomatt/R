@@ -34,7 +34,6 @@ tidy_views = views %>%
          logout_count = cumsum(event_type == 'logout'),
          full_logout = login_count == logout_count, 
          session_number = cumsum(lag(full_logout,1, default = 0))) %>% 
-  ungroup() %>% 
   group_by(session_number) %>% 
   summarize(session_start = min(timestamp), 
             session_end = max(timestamp),
